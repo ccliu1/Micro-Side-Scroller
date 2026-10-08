@@ -8,6 +8,7 @@ public class PlayerScript : MonoBehaviour
 {
     private InputAction moveAction;
     private InputAction jumpAction;
+    private InputAction attackAction;
     private Vector2 smoothVelocity;
     private Vector2 movementSmoothVelocity;
     private Vector2 moveValue;
@@ -27,6 +28,7 @@ public class PlayerScript : MonoBehaviour
     {
         moveAction = InputSystem.actions.FindAction("Move");
         jumpAction = InputSystem.actions.FindAction("Jump");
+        attackAction = InputSystem.actions.FindAction("Attack");
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
@@ -50,6 +52,12 @@ public class PlayerScript : MonoBehaviour
         }
 
         animator.SetFloat("Movement", Mathf.Abs(moveValue.x));
+        animator.SetFloat("yVelocity", rb.linearVelocityY);
+
+        if (attackAction.IsPressed() && isGrounded())
+        {
+            animator.SetTrigger("Attack");
+        }
 
         smoothVelocity = Vector2.SmoothDamp(smoothVelocity, 
                                             moveValue, 
