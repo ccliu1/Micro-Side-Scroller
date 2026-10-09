@@ -37,7 +37,6 @@ public class PlayerScript : MonoBehaviour
     void Update()
     {
         moveValue = moveAction.ReadValue<Vector2>();
-        Debug.Log("moveValue: " + moveValue.x);
     }
 
     void FixedUpdate()
