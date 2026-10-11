@@ -39,4 +39,10 @@ An issue I ran into while using a box cast was that it does not appear in the sc
 
 
 ## 2D Animation
-For this project, I will primarily be using 2D pixel sprites for animation and environmental assets.
+For this project, I will primarily be using 2D pixel sprites for animation and environmental assets. The player sprites are on a spritesheet that can be cut in Unity's engine. These cut sprites can be compiled into animation clips used in an animation controller that maps out how animations flow into one another.
+
+### What I learned
+#### Spritesheet Cutting
+I grabbed all my assets from the Unity Asset Store. The one I had for the Player was cut weirdly by the creator. The actual cut was even, but because the border of each sprite was rectangular and the actual character was drawn on the left side, the center pivot wasn't actually centered on the character. I had to recut the spritesheet so that it the pivot was centered on the character.
+#### Animation Triggers and Properties
+Each animation relationship can be activated by a trigger or by nothing at all if it has an end time. These animation triggers can be changed or triggered in the script just by grabbing the "Animator" component that's needed by the animated gameObjects.
