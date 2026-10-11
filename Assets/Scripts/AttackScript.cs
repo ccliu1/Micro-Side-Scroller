@@ -17,5 +17,9 @@ public class AttackScript : MonoBehaviour
     void OnTriggerEnter2D(Collider2D collision)
     {
         Debug.Log("Hit: " + collision.gameObject.tag);
+        if (collision.gameObject.tag == "Enemy")
+        {
+            collision.gameObject.GetComponent<EnemyScript>().takeDamage(10);
+        }
     }
 }
