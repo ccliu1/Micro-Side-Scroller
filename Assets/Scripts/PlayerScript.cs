@@ -44,10 +44,10 @@ public class PlayerScript : MonoBehaviour
         // RaycastHit2D ground = Physics2D.Raycast(transform.position, -Vector2.up);
         if (moveValue.x < 0)
         {
-            spriteRenderer.flipX = true;
+            gameObject.transform.localScale = new Vector3(-1, 1, 1);
         } else if (moveValue.x > 0)
         {
-            spriteRenderer.flipX = false;
+            gameObject.transform.localScale = new Vector3(1, 1, 1);
         }
 
         animator.SetFloat("Movement", Mathf.Abs(moveValue.x));
