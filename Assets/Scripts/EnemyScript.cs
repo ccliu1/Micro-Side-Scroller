@@ -40,11 +40,11 @@ public class EnemyScript : MonoBehaviour
     }
 
     public void takeDamage(int dmg) {
+        health = health - dmg;
         if (health <= 0)
         {
             animator.SetTrigger("Death");
         } else {
-            health = health - dmg;
             animator.SetTrigger("Hurt");
         }
     }

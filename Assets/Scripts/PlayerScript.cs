@@ -16,6 +16,8 @@ public class PlayerScript : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     public LayerMask groundLayer;
     public Animator animator;
+    private bool canMove = true;
+
     [SerializeField] private Vector2 boxSize;
     [SerializeField] private float castDistance;
     [SerializeField] private float speed = 5f;
@@ -56,6 +58,12 @@ public class PlayerScript : MonoBehaviour
         if (attackAction.IsPressed() && isGrounded())
         {
             animator.SetTrigger("Attack");
+            canMove = false;
+        }
+
+        if (!canMove)
+        {
+            moveValue = Vector2.zero;
         }
 
         smoothVelocity = Vector2.SmoothDamp(smoothVelocity, 
@@ -64,7 +72,7 @@ public class PlayerScript : MonoBehaviour
                                             smoothDampingFactor);
         rb.linearVelocityX = smoothVelocity.x * speed;
 
-        if (jumpAction.IsPressed() && isGrounded())
+        if (jumpAction.IsPressed() && isGrounded() && canMove)
         {
             rb.linearVelocityY = jumpForce;
         }
@@ -81,6 +89,11 @@ public class PlayerScript : MonoBehaviour
             return false;
         }
         
+    }
+
+    public void changeCanMove()
+    {
+        canMove = !canMove;
     }
 
     private void OnDrawGizmos()
