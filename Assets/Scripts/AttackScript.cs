@@ -19,7 +19,7 @@ public class AttackScript : MonoBehaviour
         Debug.Log("Hit: " + collision.gameObject.tag);
         if (collision.gameObject.tag == "Enemy")
         {
-            collision.gameObject.GetComponent<EnemyScript>().takeDamage(10);
+            collision.gameObject.GetComponent<EnemyScript>().takeDamage(10, GetComponentInParent<Transform>().position);
         }
     }
 }

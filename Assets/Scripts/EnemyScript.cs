@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class EnemyScript : MonoBehaviour
@@ -11,6 +12,9 @@ public class EnemyScript : MonoBehaviour
     [SerializeField] LayerMask groundLayer;
     [SerializeField] float cliffDetectionRange = 5;
     [SerializeField] Vector3 cliffDetectionOffset;
+    [SerializeField] Vector2 knockbackVel;
+    private bool hit = false;
+    private bool dead = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -21,8 +25,11 @@ public class EnemyScript : MonoBehaviour
 
     void FixedUpdate()
     {
-        rb.linearVelocityX = dir * speed;
-        animator.SetFloat("Movement", dir * speed);
+        if (!hit && !dead)
+        {
+            rb.linearVelocityX = dir * speed;
+            animator.SetFloat("Movement", Math.Abs(rb.linearVelocityX));
+        }
         if (!Physics2D.Raycast(transform.position + cliffDetectionOffset, Vector3.down, cliffDetectionRange, groundLayer))
         {
             dir = dir * -1;
@@ -39,12 +46,23 @@ public class EnemyScript : MonoBehaviour
         
     }
 
-    public void takeDamage(int dmg) {
+    public void takeDamage(int dmg, Vector3 dmgDir) {
         health = health - dmg;
         if (health <= 0)
         {
             animator.SetTrigger("Death");
+            dead = true;
+            Destroy(gameObject, 2.0f);
         } else {
+            hit = true;
+            float knockbackDir = gameObject.transform.position.x - dmgDir.x;
+            if (knockbackDir > 0)
+            {
+                rb.linearVelocity = knockbackVel;
+            } else
+            {
+                rb.linearVelocity = new Vector2(knockbackVel.x * -1, knockbackVel.y);
+            }
             animator.SetTrigger("Hurt");
         }
     }
@@ -52,6 +70,11 @@ public class EnemyScript : MonoBehaviour
     void killEnemy()
     {
         Destroy(gameObject, 2.0f);
+    }
+
+    void setHitFalse()
+    {
+        hit = false;
     }
 
     void OnDrawGizmos()
