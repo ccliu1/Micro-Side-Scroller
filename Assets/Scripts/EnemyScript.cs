@@ -77,6 +77,14 @@ public class EnemyScript : MonoBehaviour
         hit = false;
     }
 
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Player")
+        {
+            collision.gameObject.GetComponent<PlayerScript>().takeDamage(10);
+        }
+    }
+
     void OnDrawGizmos()
     {
         Gizmos.DrawLine(transform.position + cliffDetectionOffset, transform.position + cliffDetectionOffset + new Vector3(0, -cliffDetectionRange, 0));

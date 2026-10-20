@@ -17,6 +17,7 @@ public class PlayerScript : MonoBehaviour
     public LayerMask groundLayer;
     public Animator animator;
     private bool canMove = true;
+    private int health = 50;
 
     [SerializeField] private Vector2 boxSize;
     [SerializeField] private float castDistance;
@@ -43,15 +44,6 @@ public class PlayerScript : MonoBehaviour
 
     void FixedUpdate()
     {
-        // RaycastHit2D ground = Physics2D.Raycast(transform.position, -Vector2.up);
-        if (moveValue.x < 0)
-        {
-            gameObject.transform.localScale = new Vector3(-1, 1, 1);
-        } else if (moveValue.x > 0)
-        {
-            gameObject.transform.localScale = new Vector3(1, 1, 1);
-        }
-
         animator.SetFloat("Movement", Mathf.Abs(moveValue.x));
         animator.SetFloat("yVelocity", rb.linearVelocityY);
 
@@ -64,6 +56,15 @@ public class PlayerScript : MonoBehaviour
         if (!canMove)
         {
             moveValue = Vector2.zero;
+        } else
+        {
+            if (moveValue.x < 0)
+            {
+                gameObject.transform.localScale = new Vector3(-1, 1, 1);
+            } else if (moveValue.x > 0)
+            {
+                gameObject.transform.localScale = new Vector3(1, 1, 1);
+            }
         }
 
         smoothVelocity = Vector2.SmoothDamp(smoothVelocity, 
@@ -94,6 +95,16 @@ public class PlayerScript : MonoBehaviour
     public void changeCanMove()
     {
         canMove = !canMove;
+    }
+
+    public void takeDamage(int dmg)
+    {
+        health = health - dmg;
+        Debug.Log("Took damage");
+        if (health <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void OnDrawGizmos()
