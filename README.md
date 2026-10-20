@@ -46,3 +46,16 @@ For this project, I will primarily be using 2D pixel sprites for animation and e
 I grabbed all my assets from the Unity Asset Store. The one I had for the Player was cut weirdly by the creator. The actual cut was even, but because the border of each sprite was rectangular and the actual character was drawn on the left side, the center pivot wasn't actually centered on the character. I had to recut the spritesheet so that it the pivot was centered on the character.
 #### Animation Triggers and Properties
 Each animation relationship can be activated by a trigger or by nothing at all if it has an end time. These animation triggers can be changed or triggered in the script just by grabbing the "Animator" component that's needed by the animated gameObjects.
+
+### Decisions Made
+Because I am using 2D sprite animation, I wanted it to be snappy and responsive. Unity has options for animations to smoothly flow into one another, but it doesn't really work for 2D animation and it just delays the transition, making the controls feel unresponsive. I removed any transition time for animation transitions so that the animations start playing immediately when needed.
+
+
+## Enemy Implementation
+Currently, I have been working on the implementation of a single enemy. The goal is to have this enemy patrol a ledge area, attack the player when in range, and take damage / die from player attacks.
+
+### What I learned
+#### Tags vs. Layers
+This came up briefly when I was learning how to make box casts. Each Unity gameObject can be assigned one tag and one layer. From my research, the number of different tags in a game are unlimited, while there is a limit to the number of different layers. Tags mostly act like, well, a tag, but layers are integrated into the physics system. This allows them to be passed in as LayerMasks into the built-in physics functions as a filter rather having to filter it yourself in a script using tags.
+#### Destroy
+I thought that was very useful that you can just call Destroy(gameObject) in a gameObject's script and it will destroy it for you safely. It also seems to have protection against destroying null values and won't put out an error.
